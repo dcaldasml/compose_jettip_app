@@ -7,25 +7,33 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.caldas.jettipapp.components.InputField
 import com.caldas.jettipapp.ui.theme.JetTipAppTheme
 
 class MainActivity : ComponentActivity() {
+    @ExperimentalComposeUiApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MyApp {
-                TopHeader()
+                //TopHeader()
+                MainContent()
             }
         }
     }
@@ -70,9 +78,13 @@ fun TopHeader(totalPerPerson: Double = 0.0) {
     }
 }
 
+@ExperimentalComposeUiApi
 @Preview
 @Composable
 fun MainContent() {
+    val totalBillState = remember { mutableStateOf("") }
+    val validState = remember(totalBillState.value ) { totalBillState.value.trim().isNotEmpty() }
+    val keyboardController = LocalSoftwareKeyboardController.current
     Surface(
         modifier = Modifier
             .padding(2.dp)
@@ -81,7 +93,17 @@ fun MainContent() {
         border = BorderStroke(width = 1.dp, color = Color.LightGray)
     ) {
         Column() {
+            InputField(
+                valueState = totalBillState,
+                labelId = "Enter Bill",
+                enabled = true,
+                isSingleLine = true,
+                onAction = KeyboardActions {
+                    if (!validState) return@KeyboardActions
 
+                    keyboardController?.hide()
+                }
+            )
         }
     }
 }
