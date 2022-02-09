@@ -3,6 +3,7 @@ package com.caldas.jettipapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,7 +40,6 @@ fun MyApp(content: @Composable () -> Unit) {
     }
 }
 
-@Preview
 @Composable
 fun TopHeader(totalPerPerson: Double = 0.0) {
     Surface(
@@ -70,12 +70,28 @@ fun TopHeader(totalPerPerson: Double = 0.0) {
     }
 }
 
+@Preview
+@Composable
+fun MainContent() {
+    Surface(
+        modifier = Modifier
+            .padding(2.dp)
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(corner = CornerSize(8.dp)),
+        border = BorderStroke(width = 1.dp, color = Color.LightGray)
+    ) {
+        Column() {
+
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     JetTipAppTheme {
         MyApp {
-
+            TopHeader()
         }
     }
 }
