@@ -38,7 +38,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApp {
-                //TopHeader()
                 MainContent()
             }
         }
@@ -61,7 +60,8 @@ fun TopHeader(totalPerPerson: Double = 0.0) {
             .fillMaxWidth()
             .height(150.dp)
             //.clip(shape = CircleShape.copy(all = CornerSize(12.dp)))
-            .clip(shape = RoundedCornerShape(corner = CornerSize(12.dp))),
+            .clip(shape = RoundedCornerShape(corner = CornerSize(12.dp)))
+            .padding(15.dp),
         color = Color(0xFFE9D7F7)
     ) {
         Column(
@@ -85,7 +85,6 @@ fun TopHeader(totalPerPerson: Double = 0.0) {
 }
 
 @ExperimentalComposeUiApi
-@Preview
 @Composable
 fun MainContent() {
     BillForm { billAmount ->
@@ -104,6 +103,8 @@ fun BillForm(
     val keyboardController = LocalSoftwareKeyboardController.current
     val split = remember { mutableStateOf(1) }
     val sliderPosition = remember { mutableStateOf(0f) }
+
+    TopHeader()
 
     Surface(
         modifier = Modifier
@@ -189,7 +190,9 @@ fun BillForm(
                         onValueChange = { newVal ->
                             sliderPosition.value = newVal
                             Log.d("SLIDER", "BillForm: $newVal")
-                        }
+                        },
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                        steps = 5
                     )
                 }
             } else {
@@ -199,12 +202,13 @@ fun BillForm(
     }
 }
 
+@ExperimentalComposeUiApi
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     JetTipAppTheme {
         MyApp {
-            TopHeader()
+            MainContent()
         }
     }
 }
