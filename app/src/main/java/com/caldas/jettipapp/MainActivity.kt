@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.caldas.jettipapp.components.InputField
 import com.caldas.jettipapp.ui.theme.JetTipAppTheme
+import com.caldas.jettipapp.util.calculateTotalTip
 import com.caldas.jettipapp.widgets.RoundIconButton
 
 class MainActivity : ComponentActivity() {
@@ -103,6 +104,7 @@ fun BillForm(
     val split = remember { mutableStateOf(1) }
     val sliderPosition = remember { mutableStateOf(0f) }
     val tipPercengage = (sliderPosition.value * 100).toInt()
+    val tipAmountState = remember { mutableStateOf(0.0) }
     val range = IntRange(start = 1, endInclusive = 15)
 
     Column(modifier = Modifier.padding(all = 12.dp)) {
@@ -181,7 +183,7 @@ fun BillForm(
                         )
                         Spacer(modifier = Modifier.width(200.dp))
                         Text(
-                            text = "$ 33.00",
+                            text = "$ ${tipAmountState.value}",
                             modifier = Modifier.align(alignment = Alignment.CenterVertically)
                         )
                     }
@@ -195,7 +197,7 @@ fun BillForm(
                             value = sliderPosition.value,
                             onValueChange = { newVal ->
                                 sliderPosition.value = newVal
-                                Log.d("SLIDER", "BillForm: $newVal")
+                                tipAmountState.value = calculateTotalTip(totalBillState.value.toDouble(), tipPercengage)
                             },
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                             steps = 5
