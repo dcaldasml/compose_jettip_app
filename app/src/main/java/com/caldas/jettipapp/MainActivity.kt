@@ -102,6 +102,7 @@ fun BillForm(
     val keyboardController = LocalSoftwareKeyboardController.current
     val split = remember { mutableStateOf(1) }
     val sliderPosition = remember { mutableStateOf(0f) }
+    val tipPercengage = (sliderPosition.value * 100).toInt()
     val range = IntRange(start = 1, endInclusive = 15)
 
     Column(modifier = Modifier.padding(all = 12.dp)) {
@@ -188,7 +189,7 @@ fun BillForm(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "33%")
+                        Text(text = "$tipPercengage%")
                         Spacer(modifier = Modifier.height(14.dp))
                         Slider(
                             value = sliderPosition.value,
