@@ -103,9 +103,7 @@ fun BillForm(
     val split = remember { mutableStateOf(1) }
     val sliderPosition = remember { mutableStateOf(0f) }
 
-    Column(
-        modifier = Modifier.padding(all = 8.dp)
-    ) {
+    Column(modifier = Modifier.padding(all = 12.dp)) {
         TopHeader()
         
         Spacer(modifier = Modifier.height(15.dp))
